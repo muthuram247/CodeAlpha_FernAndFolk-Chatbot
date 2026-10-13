@@ -44,7 +44,7 @@ def preprocess():
     return jsonify({
         "original": question,
         "tokens": cleaned_tokens,
-        "cleaned": " ".join(cleaned_tokens)
+        "cleaned": " ".join(cleaned_tokens
     })
 
 if __name__ == "__main__":
