@@ -929,17 +929,23 @@ $("profileButton")?.addEventListener("click", () => {
 function startApp() {
   showScreen("login");
 
-  googleButton?.addEventListener("click", () => {
-    showLoginError(
-      "Use the official Google sign-in button. If it is missing, refresh the page and check your connection."
-    );
-  });
+  if (googleButtonContainer) {
+    googleButtonContainer.replaceChildren();
+    googleButtonContainer.style.display = "none";
+  }
+
+  if (googleButton) {
+    googleButton.classList.remove("hidden");
+    googleButton.onclick = openGoogleSignIn;
+  }
 
   waitForGoogle();
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", startApp, { once: true });
+  document.addEventListener("DOMContentLoaded", startApp, {
+    once: true
+  });
 } else {
   startApp();
 }
