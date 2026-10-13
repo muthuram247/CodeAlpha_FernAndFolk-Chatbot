@@ -1,4 +1,3 @@
-
 "use strict";
 
 /*
@@ -17,6 +16,7 @@
 
 const GOOGLE_CLIENT_ID =
   "1004421091327-cjklss50ahbtac19hd4imn81o7nsud5c.apps.googleusercontent.com";
+const NLP_API_URL = https://fern-folk.onrender.com;
 
 /* =========================================================
    FAQ LIBRARY — 55 DETAILED QUESTIONS
@@ -691,6 +691,39 @@ function tokenize(text) {
     .filter((word) => word.length > 1 && !STOP_WORDS.has(word));
 }
 
+async function preprocessQuestionWithNLTK(question) {
+  try {
+    const response = await fetch(`${NLP_API_URL}/preprocess`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ question })
+    });
+
+    if (!response.ok) {
+      throw new Error(`NLP API returned ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return {
+      original: data.original || question,
+      cleaned: data.cleaned || "",
+      tokens: Array.isArray(data.tokens) ? data.tokens : []
+    };
+  } catch (error) {
+    console.error("NLTK preprocessing unavailable:", error);
+
+    // Keep the chatbot usable if Render is asleep or unavailable.
+    return {
+      original: normalizeText(question),
+      cleaned: normalizeText(question),
+      tokens: tokenize(question)
+    };
+  }
+     }
+
 function scoreFAQ(question, faq) {
   const normalizedQuestion = normalizeText(question);
   const normalizedTitle = normalizeText(faq.question);
@@ -825,7 +858,9 @@ function setTyping(isTyping) {
   if (sendButton) sendButton.disabled = isTyping;
 }
 
-function handleQuestion(question) {
+
+
+async function handleQuestion(question) {
   const cleanQuestion = String(question || "").trim();
   if (!cleanQuestion) return;
 
@@ -837,15 +872,31 @@ function handleQuestion(question) {
   addMessage(cleanQuestion, "user");
   welcomeBlock?.classList.add("hidden");
   setTyping(true);
-
   clearTimeout(responseTimer);
 
-  responseTimer = setTimeout(() => {
-    const answer = findFAQAnswer(cleanQuestion);
+  try {
+    const processed = await preprocessQuestionWithNLTK(cleanQuestion);
+
+    // Use NLTK-cleaned text for matching when available.
+    const matchingQuestion =
+      processed.tokens.length > 0
+        ? processed.cleaned
+        : cleanQuestion;
+
+    const answer = findFAQAnswer(matchingQuestion);
+
     setTyping(false);
     addMessage(answer, "assistant");
+  } catch (error) {
+    console.error("Question handling error:", error);
+    setTyping(false);
+    addMessage(
+      findFAQAnswer(cleanQuestion),
+      "assistant"
+    );
+  } finally {
     questionInput?.focus();
-  }, 350);
+  }
 }
 
 /* =========================================================
