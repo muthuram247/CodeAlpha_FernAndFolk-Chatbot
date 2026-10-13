@@ -514,7 +514,7 @@ function signOut() {
 }
 
 /* =========================================================
-   GOOGLE IDENTITY SERVICES
+   GOOGLE IDENTITY SERVICES — SINGLE CUSTOM BUTTON
    ========================================================= */
 
 function decodeGoogleCredential(credential) {
@@ -546,7 +546,7 @@ function handleGoogleCredential(response) {
   try {
     const user = decodeGoogleCredential(response.credential);
 
-    // Configuration checks only; these do not verify the signature.
+    // These checks do NOT verify the credential's signature.
     if (user.aud !== GOOGLE_CLIENT_ID) {
       throw new Error("Credential belongs to a different client.");
     }
@@ -570,23 +570,17 @@ function handleGoogleCredential(response) {
     showToast("Welcome to Fern & Folk, " + user.name + "!");
   } catch (error) {
     console.error("Google sign-in error:", error);
-    showLoginError("We couldn't read your Google profile. Please try again.");
+    showLoginError(
+      "We couldn't read your Google profile. Please try again."
+    );
   }
 }
 
 function initializeGoogleLogin() {
   if (!window.google?.accounts?.id) {
     showLoginError(
-      "Google sign-in is unavailable. Check your internet connection and refresh."
+      "Google sign-in is unavailable. Check your connection and refresh."
     );
-    return;
-  }
-
-  if (
-    !GOOGLE_CLIENT_ID ||
-    !GOOGLE_CLIENT_ID.endsWith(".apps.googleusercontent.com")
-  ) {
-    showLoginError("Please check the Google Web Client ID.");
     return;
   }
 
@@ -597,26 +591,50 @@ function initializeGoogleLogin() {
     cancel_on_tap_outside: true
   });
 
+  // Remove the extra Google-rendered button completely.
   if (googleButtonContainer) {
     googleButtonContainer.replaceChildren();
-
-    window.google.accounts.id.renderButton(googleButtonContainer, {
-      type: "standard",
-      theme: "outline",
-      size: "large",
-      text: "continue_with",
-      shape: "pill",
-      width: 280,
-      logo_alignment: "left"
-    });
+    googleButtonContainer.style.display = "none";
   }
 
-  googleButton?.classList.add("hidden");
+  // Keep the custom button visible.
+  if (googleButton) {
+    googleButton.classList.remove("hidden");
+    googleButton.disabled = false;
+    googleButton.onclick = openGoogleSignIn;
+  }
 
   if (loginNote) {
     loginNote.textContent =
       "Google sign-in is provided by Google Identity Services.";
   }
+}
+
+function openGoogleSignIn() {
+  clearLoginError();
+
+  if (!window.google?.accounts?.id) {
+    showLoginError(
+      "Google sign-in is still loading. Refresh the page and try again."
+    );
+    return;
+  }
+
+  // Opens Google's One Tap/account selection prompt.
+  window.google.accounts.id.prompt((notification) => {
+    if (notification.isNotDisplayed()) {
+      console.warn(
+        "Google prompt was not displayed:",
+        notification.getNotDisplayedReason()
+      );
+
+      showLoginError(
+        "Google's account prompt could not open. Check browser settings and try again."
+      );
+    } else if (notification.isSkippedMoment()) {
+      console.info("Google sign-in prompt was skipped.");
+    }
+  });
 }
 
 function waitForGoogle(attempt = 0) {
@@ -634,7 +652,6 @@ function waitForGoogle(attempt = 0) {
 
   setTimeout(() => waitForGoogle(attempt + 1), 300);
 }
-
 /* =========================================================
    GUEST LOGIN
    ========================================================= */
