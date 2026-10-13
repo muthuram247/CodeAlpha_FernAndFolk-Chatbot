@@ -1,98 +1,393 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#244b38">
-  <title>Fern & Folk — FAQ Assistant</title>
+
+  <title>Fern &amp; Folk — FAQ Assistant</title>
+  <meta
+    name="description"
+    content="Fern & Folk is a thoughtful FAQ assistant that helps you find clear answers."
+  >
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="style.css">
+
+  <!-- Google Identity Services: no Firebase Authentication required -->
+  <script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer
+  ></script>
 </head>
+
 <body>
   <main class="app-shell">
+
+    <!-- LOGIN SCREEN -->
     <section class="login-screen" id="loginScreen">
+
       <div class="login-art">
-        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
-        <div class="leaf-mark"><span></span><span></span><span></span></div>
-        <p class="eyebrow light">A LITTLE CLARITY GOES A LONG WAY</p>
-        <h1>Good questions<br><em>deserve good answers.</em></h1>
-        <p class="art-copy">A thoughtful, simple help desk for the things you want to know.</p>
-        <div class="art-foot"><span class="tiny-dot"></span> Made for curious minds</div>
-      </div>
-      <div class="login-panel">
-        <div class="brand-row">
-          <div class="brand-icon"><span class="brand-leaf"></span></div>
-          <div><strong>Fern & Folk</strong><small>YOUR PERSONAL HELP DESK</small></div>
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+
+        <div class="leaf-mark">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+
+        <p class="eyebrow light">
+          A LITTLE CLARITY GOES A LONG WAY
+        </p>
+
+        <h1>
+          Good questions<br>
+          <em>deserve good answers.</em>
+        </h1>
+
+        <p class="art-copy">
+          A thoughtful, simple help desk for the things you want to know.
+        </p>
+
+        <div class="art-foot">
+          <span class="tiny-dot"></span>
+          Made for curious minds
+        </div>
+      </div>
+
+      <div class="login-panel">
+
+        <div class="brand-row">
+          <div class="brand-icon">
+            <span class="brand-leaf"></span>
+          </div>
+
+          <div>
+            <strong>Fern &amp; Folk</strong>
+            <small>YOUR PERSONAL HELP DESK</small>
+          </div>
+        </div>
+
         <div class="login-copy">
           <p class="eyebrow">WELCOME IN</p>
-          <h2>Let's get you<br>the right answer.</h2>
-          <p>Sign in to start a conversation. No fuss, just helpful answers.</p>
+
+          <h2>
+            Let's get you<br>
+            the right answer.
+          </h2>
+
+          <p>
+            Sign in to start a conversation. No fuss, just helpful answers.
+          </p>
         </div>
-        <button class="auth-button google-button" id="googleButton" type="button">
-          <span class="google-g">G</span> Continue with Google
+
+        <!-- Google Identity Services renders its official button here -->
+        <div
+          id="googleButtonContainer"
+          class="google-button-container"
+        ></div>
+
+        <!-- Keep this ID for compatibility with the previous script -->
+        <button
+          class="auth-button google-button"
+          id="googleButton"
+          type="button"
+        >
+          <span class="google-g">G</span>
+          Continue with Google
         </button>
-        <button class="auth-button guest-button" id="guestButton" type="button">
-          <span class="guest-symbol">↗</span> Continue as guest
+
+        <button
+          class="auth-button guest-button"
+          id="guestButton"
+          type="button"
+        >
+          <span class="guest-symbol">↗</span>
+          Continue as guest
         </button>
-        <p class="login-note" id="loginNote">Your questions stay in this browser session.</p>
-        <p class="login-error" id="loginError" role="alert"></p>
-        <div class="login-bottom"><span>FERN & FOLK</span><span>HELP, WITHOUT THE NOISE.</span></div>
+
+        <p class="login-note" id="loginNote">
+          Your questions stay in this browser session.
+        </p>
+
+        <p
+          class="login-error"
+          id="loginError"
+          role="alert"
+          aria-live="polite"
+        ></p>
+
+        <div class="login-bottom">
+          <span>FERN &amp; FOLK</span>
+          <span>HELP, WITHOUT THE NOISE.</span>
+        </div>
+
       </div>
     </section>
 
+    <!-- CHAT SCREEN -->
     <section class="chat-screen hidden" id="chatScreen">
+
       <aside class="sidebar">
+
         <div class="brand-row sidebar-brand">
-          <div class="brand-icon"><span class="brand-leaf"></span></div>
-          <div><strong>Fern & Folk</strong><small>FAQ ASSISTANT</small></div>
+          <div class="brand-icon">
+            <span class="brand-leaf"></span>
+          </div>
+
+          <div>
+            <strong>Fern &amp; Folk</strong>
+            <small>FAQ ASSISTANT</small>
+          </div>
         </div>
-        <button class="new-chat" id="newChatButton"><span>＋</span> New conversation</button>
+
+        <button
+          class="new-chat"
+          id="newChatButton"
+          type="button"
+        >
+          <span>＋</span>
+          New conversation
+        </button>
+
         <p class="side-label">YOUR SPACE</p>
-        <div class="side-link active"><span class="side-link-icon">◌</span> Ask a question</div>
-        <div class="side-link"><span class="side-link-icon">✳</span> Popular topics</div>
+
+        <div class="side-link active">
+          <span class="side-link-icon">◌</span>
+          Ask a question
+        </div>
+
+        <div class="side-link">
+          <span class="side-link-icon">✳</span>
+          Popular topics
+        </div>
+
         <div class="sidebar-bottom">
-          <div class="online-card"><span class="status-dot"></span><div><strong>Assistant is ready</strong><small>Answers from the FAQ library</small></div></div>
-          <button class="profile-button" id="profileButton">
-            <span class="avatar" id="avatar">G</span><span class="profile-name"><strong id="profileName">Guest visitor</strong><small id="profileType">Guest account</small></span><span class="profile-menu">⋯</span>
+
+          <div class="online-card">
+            <span class="status-dot"></span>
+
+            <div>
+              <strong>Assistant is ready</strong>
+              <small>Answers from the FAQ library</small>
+            </div>
+          </div>
+
+          <button
+            class="profile-button"
+            id="profileButton"
+            type="button"
+          >
+            <span class="avatar" id="avatar">G</span>
+
+            <span class="profile-name">
+              <strong id="profileName">Guest visitor</strong>
+              <small id="profileType">Guest account</small>
+            </span>
+
+            <span class="profile-menu">⋯</span>
           </button>
-          <button class="signout-button" id="signOutButton">Sign out</button>
+
+          <button
+            class="signout-button"
+            id="signOutButton"
+            type="button"
+          >
+            Sign out
+          </button>
+
         </div>
       </aside>
+
+      <!-- MAIN CHAT AREA -->
       <section class="chat-main">
+
         <header class="topbar">
-          <div class="mobile-brand"><div class="brand-icon"><span class="brand-leaf"></span></div><strong>Fern & Folk</strong></div>
-          <div class="topbar-status"><span class="status-dot"></span> FAQ assistant <span class="topbar-divider">/</span> <span>Knowledge base</span></div>
-          <button class="help-button" id="aboutButton" aria-label="About this assistant">i</button>
+
+          <div class="mobile-brand">
+            <div class="brand-icon">
+              <span class="brand-leaf"></span>
+            </div>
+
+            <strong>Fern &amp; Folk</strong>
+          </div>
+
+          <div class="topbar-status">
+            <span class="status-dot"></span>
+            FAQ assistant
+            <span class="topbar-divider">/</span>
+            <span>Knowledge base</span>
+          </div>
+
+          <button
+            class="help-button"
+            id="aboutButton"
+            type="button"
+            aria-label="About this assistant"
+          >
+            i
+          </button>
+
         </header>
+
+        <!-- CONVERSATION -->
         <div class="conversation" id="conversation">
+
           <div class="welcome-block" id="welcomeBlock">
+
             <div class="welcome-spark">✳</div>
+
             <p class="eyebrow">A FRESH START</p>
-            <h1>What can I help<br>you <em>figure out?</em></h1>
-            <p class="welcome-description">Ask me something in your own words. I'll look for the closest answer in my FAQ library.</p>
+
+            <h1>
+              What can I help<br>
+              you <em>figure out?</em>
+            </h1>
+
+            <p class="welcome-description">
+              Ask me something in your own words.
+              I'll look for the closest answer in my FAQ library.
+            </p>
+
             <div class="suggestion-grid">
-              <button class="suggestion" data-question="How do I get started?"><span class="suggestion-icon">↗</span><span><strong>Getting started</strong><small>Find your first steps</small></span><span class="suggestion-arrow">→</span></button>
-              <button class="suggestion" data-question="How can I contact support?"><span class="suggestion-icon">☏</span><span><strong>Contact & support</strong><small>Know where to get help</small></span><span class="suggestion-arrow">→</span></button>
-              <button class="suggestion" data-question="Can I use this as a guest?"><span class="suggestion-icon">♧</span><span><strong>Guest access</strong><small>Use it without signing in</small></span><span class="suggestion-arrow">→</span></button>
-              <button class="suggestion" data-question="Is my information private?"><span class="suggestion-icon">⌑</span><span><strong>Privacy basics</strong><small>Understand your data</small></span><span class="suggestion-arrow">→</span></button>
+
+              <button
+                class="suggestion"
+                type="button"
+                data-question="How do I get started?"
+              >
+                <span class="suggestion-icon">↗</span>
+
+                <span>
+                  <strong>Getting started</strong>
+                  <small>Find your first steps</small>
+                </span>
+
+                <span class="suggestion-arrow">→</span>
+              </button>
+
+              <button
+                class="suggestion"
+                type="button"
+                data-question="How can I contact support?"
+              >
+                <span class="suggestion-icon">☏</span>
+
+                <span>
+                  <strong>Contact &amp; support</strong>
+                  <small>Know where to get help</small>
+                </span>
+
+                <span class="suggestion-arrow">→</span>
+              </button>
+
+              <button
+                class="suggestion"
+                type="button"
+                data-question="Can I use this as a guest?"
+              >
+                <span class="suggestion-icon">♧</span>
+
+                <span>
+                  <strong>Guest access</strong>
+                  <small>Use it without signing in</small>
+                </span>
+
+                <span class="suggestion-arrow">→</span>
+              </button>
+
+              <button
+                class="suggestion"
+                type="button"
+                data-question="Is my information private?"
+              >
+                <span class="suggestion-icon">⌑</span>
+
+                <span>
+                  <strong>Privacy basics</strong>
+                  <small>Understand your data</small>
+                </span>
+
+                <span class="suggestion-arrow">→</span>
+              </button>
+
             </div>
           </div>
         </div>
+
+        <!-- MESSAGE COMPOSER -->
         <div class="composer-wrap">
-          <div class="typing-indicator hidden" id="typingIndicator"><span></span><span></span><span></span> Finding the closest answer…</div>
+
+          <div
+            class="typing-indicator hidden"
+            id="typingIndicator"
+            aria-live="polite"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+            Finding the closest answer…
+          </div>
+
           <form class="composer" id="chatForm">
-            <textarea id="questionInput" rows="1" placeholder="Ask a question…" aria-label="Ask a question"></textarea>
-            <div class="composer-bottom"><span><span class="composer-leaf">✳</span> Answers are matched from the FAQ library</span><button type="submit" id="sendButton" aria-label="Send question"><span>Send</span><b>↑</b></button></div>
+
+            <textarea
+              id="questionInput"
+              rows="1"
+              placeholder="Ask a question…"
+              aria-label="Ask a question"
+            ></textarea>
+
+            <div class="composer-bottom">
+
+              <span>
+                <span class="composer-leaf">✳</span>
+                Answers are matched from the FAQ library
+              </span>
+
+              <button
+                type="submit"
+                id="sendButton"
+                aria-label="Send question"
+              >
+                <span>Send</span>
+                <b>↑</b>
+              </button>
+
+            </div>
           </form>
-          <p class="fine-print">Fern & Folk can make mistakes. For important details, check the original source.</p>
+
+          <p class="fine-print">
+            Fern &amp; Folk can make mistakes.
+            For important details, check the original source.
+          </p>
+
         </div>
       </section>
     </section>
-    <div class="toast hidden" id="toast"></div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div
+      class="toast hidden"
+      id="toast"
+      role="status"
+      aria-live="polite"
+    ></div>
+
   </main>
+
+  <!-- Your existing chatbot/authentication logic -->
   <script type="module" src="script.js"></script>
+
 </body>
 </html>
