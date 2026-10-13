@@ -1,47 +1,99 @@
-# CodeAlpha Task 2 — Fern & Folk FAQ Chatbot
 
-A responsive FAQ chatbot with a forest-green and warm-cream interface, Google sign-in, guest access, and a small retrieval-based NLP engine.
+# Fern & Folk — FAQ Chatbot 
+
+Fern & Folk is a simple FAQ chatbot that helps website visitors find answers to common questions quickly. Users can type their questions into the chat interface and receive answers based on the information stored in the chatbot.
+
+The goal of this project is to make finding information simple, quick, and convenient.
 
 ## Features
-- Google sign-in using Firebase Authentication
-- Guest sign-in using Firebase anonymous authentication
-- FAQ matching with text cleaning, stop-word removal, TF-IDF weighting, and cosine similarity
-- Helpful fallback when a question does not match
-- Responsive layout for phones and computers
-- No paid AI API required; responses come from your FAQ library
 
-## Run it
-Because this project uses JavaScript modules and Firebase, open it through a local web server rather than directly as a `file://` page.
+- FAQ-based question answering
+- Text cleaning and keyword-based question matching
+- Interactive chat interface
+- Google sign-in option
+- Guest access option
+- User profile display
+- Sign-out option
+- Mobile-friendly website design
 
-Easy options:
-1. Open the folder in Acode.
-2. Use Acode's preview/server feature if it serves the page over HTTP.
-3. Or upload the files to GitHub and enable GitHub Pages, or deploy them to Netlify.
+## How It Works
 
-## Enable Google login and guest access
-1. Open https://console.firebase.google.com/ and create a project.
-2. Add a Web app in Project settings.
-3. Copy its Firebase config into `firebaseConfig` near the top of `script.js`.
-4. In Firebase Console, open **Authentication → Sign-in method**.
-5. Enable **Google** and **Anonymous**.
-6. In **Authentication → Settings → Authorized domains**, add your deployed domain.
-7. Reload the website. Google and guest sign-in should now use Firebase.
+1. Open the Fern & Folk website.
+2. Choose Google sign-in or guest access.
+3. Enter the chatbot interface.
+4. Type a question in the message box.
+5. JavaScript cleans the question and processes its words.
+6. The chatbot compares the question with its predefined FAQ collection.
+7. A relevant answer is displayed in the chat window.
+8. Continue asking questions or sign out when finished.
 
-Guest preview works even before Firebase is configured, but it is a local preview session—not a Firebase account. Google sign-in cannot work until you add your own Firebase configuration.
+The chatbot uses predefined information and question matching. It does not generate answers to every possible question automatically.
 
-## Customize the FAQs
-Edit the `FAQS` array in `script.js`. Each entry has:
-- `q`: the FAQ question
-- `a`: the answer
-- `tags`: extra keywords that help matching
+## Technologies Used
 
-Use a topic that fits your internship demonstration, such as app support, college help desk, or product FAQs. Replace the sample answers with accurate answers for your chosen topic.
+- **HTML** — Website structure
+- **CSS** — Website design and layout
+- **JavaScript** — Chat functionality and FAQ matching
+- **Google Identity Services** — Google authentication
+- **GitHub Pages** — Frontend hosting
+- **Render** — Backend hosting, if required by the deployed configuration
 
-## Important notes
-- This is a browser-side demo. Do not place private service-account keys in frontend code.
-- Firebase web config is intended for client-side use, but secure your Firebase project with appropriate settings and rules if you later add a database.
-- The local preview mode does not provide persistent accounts or cloud sync.
-- The FAQ engine is retrieval-based, not a generative AI model. Its answers are limited to the FAQ entries you write.
+## Project Structure
 
-## Suggested GitHub repository name
-`CodeAlpha_FAQ_Chatbot`
+```text
+fern-and-folk/
+├── index.html
+├── style.css
+├── script.js
+└── README.md
+```
+
+- `index.html` — Main webpage
+- `style.css` — Styling and responsive layout
+- `script.js` — FAQ data, question matching, and interface interactions
+- `README.md` — Project documentation
+
+## Setup and Usage
+
+1. Clone or download the repository.
+2. Keep the project files in the same structure expected by the HTML file.
+3. Open `index.html` in a browser for local testing.
+4. For online hosting, publish the frontend using GitHub Pages.
+5. Configure Google OAuth correctly if Google sign-in is enabled.
+
+## Google Sign-in
+
+Google authentication requires a valid OAuth 2.0 Web client ID and the correct authorised JavaScript origin in Google Cloud Console.
+
+The authorised origin must match the deployed website's origin. Authentication will not work correctly until the Google configuration and frontend code are set up properly.
+
+## Limitations
+
+- Responses depend on the questions and answers stored in the FAQ collection.
+- Unrecognised questions may not return the expected answer.
+- Google sign-in requires valid OAuth configuration.
+- Guest access requires a working click handler in JavaScript.
+- GitHub Pages hosts static frontend files and does not execute Python files directly.
+- A separately hosted backend must be connected to the frontend if backend functionality is required.
+
+## Future Improvements
+
+- Improve question matching
+- Add more frequently asked questions
+- Improve login and guest access
+- Add chat history
+- Improve error handling
+- Enhance mobile accessibility
+
+## Project Objective
+
+Fern & Folk demonstrates how HTML, CSS, and JavaScript can be combined to build a simple conversational interface for answering frequently asked questions.
+
+The project focuses on usability, straightforward design, and quick access to information.
+
+---
+
+**Project:** Fern & Folk FAQ Chatbot  
+**Frontend:** HTML, CSS, JavaScript  
+**Hosting:** GitHub Pages  
+**Authentication:** Google Identity Services
