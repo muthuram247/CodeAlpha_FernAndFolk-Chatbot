@@ -11,10 +11,27 @@ import {
 // 1) Replace these values with your Firebase project's web-app config.
 // Firebase Console > Project settings > Your apps > Web app.
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAJSfDnOb9m_5cf7Awd0ppUDauEMksj1fA",
+  authDomain: "fern-and-folk.firebaseapp.com",
+  projectId: "fern-and-folk",
+  storageBucket: "fern-and-folk.firebasestorage.app",
+  messagingSenderId: "1086967831726",
+  appId: "1:1086967831726:web:9578ad25709d21ac14213f",
+  measurementId: "G-4TV1B70W0Y"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 };
 
 const FAQS = [
