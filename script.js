@@ -916,15 +916,9 @@ function startApp() {
 
   if (googleButtonContainer) {
     googleButtonContainer.replaceChildren();
-    googleButtonContainer.style.display = "none";
+    googleButtonContainer.style.display = "flex";
   }
 
-  if (googleButton) {
-    googleButton.classList.remove("hidden");
-    googleButton.onclick = openGoogleSignIn;
-  }
-
-  // Fix: connect the Guest Login button
   if (guestButton) {
     guestButton.onclick = function () {
       enterChat(
@@ -938,7 +932,6 @@ function startApp() {
 
   waitForGoogle();
 }
-
 if (document.readyState === "loading") {
 document.addEventListener("DOMContentLoaded", startApp, {
 once: true
