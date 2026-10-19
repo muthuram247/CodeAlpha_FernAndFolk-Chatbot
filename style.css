@@ -54,3 +54,17 @@
   border-color: #9cad98 !important;
   transform: translateY(-1px);
 }
+/* Official Google Sign-In button */
+.google-button-container {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.google-button-container > div {
+  max-width: 100%;
+}
