@@ -1,31 +1,7 @@
 "use strict";
-
-/*
-
-- FERN & FOLK — FAQ ASSISTANT
-- Google Identity Services + Guest Mode
-- Expanded FAQ Library + Improved Keyword Matching
-- 
-- IMPORTANT:
-- Browser-side credential decoding is not secure authentication.
-- Verify Google's credential on a backend before trusting identity.
-  */
-
-/* =========================================================
-GOOGLE CONFIGURATION — KEPT UNCHANGED
-========================================================= */
-
 const GOOGLE_CLIENT_ID =
 "1004421091327-cjklss50ahbtac19hd4imn81o7nsud5c.apps.googleusercontent.com";
-
-/* =========================================================
-FAQ LIBRARY — 55 DETAILED QUESTIONS
-========================================================= */
-
 const FAQS = [
-
-// GETTING STARTED
-
 {
 question: "How do I get started?",
 keywords: ["start", "begin", "first steps", "new user", "getting started", "how to use"],
@@ -921,19 +897,31 @@ STARTUP
 ========================================================= */
 
 function startApp() {
-showScreen("login");
+  showScreen("login");
 
-if (googleButtonContainer) {
-googleButtonContainer.replaceChildren();
-googleButtonContainer.style.display = "none";
-}
+  if (googleButtonContainer) {
+    googleButtonContainer.replaceChildren();
+    googleButtonContainer.style.display = "none";
+  }
 
-if (googleButton) {
-googleButton.classList.remove("hidden");
-googleButton.onclick = openGoogleSignIn;
-}
+  if (googleButton) {
+    googleButton.classList.remove("hidden");
+    googleButton.onclick = openGoogleSignIn;
+  }
 
-waitForGoogle();
+  // Fix: connect the Guest Login button
+  if (guestButton) {
+    guestButton.onclick = function () {
+      enterChat(
+        { name: "Guest visitor", email: "" },
+        "Guest mode"
+      );
+
+      showToast("Welcome! You are using guest mode.");
+    };
+  }
+
+  waitForGoogle();
 }
 
 if (document.readyState === "loading") {
