@@ -553,37 +553,52 @@ showLoginError(
 }
 
 function initializeGoogleLogin() {
-if (!window.google?.accounts?.id) {
-showLoginError(
-"Google sign-in is unavailable. Check your connection and refresh."
-);
-return;
-}
+  if (!window.google?.accounts?.id) {
+    showLoginError(
+      "Google sign-in is unavailable. Check your connection and refresh."
+    );
+    return;
+  }
 
-window.google.accounts.id.initialize({
-client_id: GOOGLE_CLIENT_ID,
-callback: handleGoogleCredential,
-auto_select: false,
-cancel_on_tap_outside: true
-});
+  window.google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredential,
+    auto_select: false,
+    cancel_on_tap_outside: true
+  });
 
-// Remove the extra Google-rendered button completely.
-if (googleButtonContainer) {
-googleButtonContainer.replaceChildren();
-googleButtonContainer.style.display = "none";
-}
+  if (!googleButtonContainer) {
+    showLoginError(
+      "Google sign-in button could not be loaded. Refresh the page."
+    );
+    return;
+  }
 
-// Keep the custom button visible.
-if (googleButton) {
-googleButton.classList.remove("hidden");
-googleButton.disabled = false;
-googleButton.onclick = openGoogleSignIn;
-}
+  googleButtonContainer.replaceChildren();
+  googleButtonContainer.style.display = "flex";
 
-if (loginNote) {
-loginNote.textContent =
-"Google sign-in is provided by Google Identity Services.";
-}
+  const buttonWidth = Math.min(
+    400,
+    Math.max(200, googleButtonContainer.clientWidth || 320)
+  );
+
+  window.google.accounts.id.renderButton(
+    googleButtonContainer,
+    {
+      type: "standard",
+      theme: "outline",
+      size: "large",
+      text: "continue_with",
+      shape: "rectangular",
+      logo_alignment: "left",
+      width: buttonWidth
+    }
+  );
+
+  if (loginNote) {
+    loginNote.textContent =
+      "Google sign-in is provided by Google Identity Services.";
+  }
 }
 
 function openGoogleSignIn() {
