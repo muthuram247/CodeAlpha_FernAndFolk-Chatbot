@@ -57,12 +57,15 @@
 /* Official Google Sign-In button */
 .google-button-container {
   width: 100%;
-  min-height: 44px;
+  min-height: 52px;
   margin-top: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  color: #263a2c !important;
+  border: 1px solid #dfe2d7 !important; 
+  border-radius: 12px !important;
 }
 
 .google-button-container > div {
